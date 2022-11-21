@@ -1,0 +1,342 @@
+-
+
+-------------
+PTHREAD GUIDE
+-------------
+
+
+echo 
+1. prints single words 
+3. prints multi-worded lines 
+2. can print variables which aredefined using $ (*) 
+-> excludes " , handles printing of variables using $x (*)
+eg:
+| echo hello &t
+hello 
+| echo "utkarsh" &t
+utkarsh 
+| echo utkarsh venaik
+utkarsh venaik
+| x = 7
+| echo there are $x wonders in the world
+there are 7 wonders in the world
+
+
+
+pwd 
+1. pwd &t: prints the COMPLETE location of the current working directory 
+2. pwd --help &t: prints the help page and availiable command of the pwd command 
+-> exception handled: 'pwd --' is same as pwd , gives error of too many arguments if too many arguments given 
+EXAMPLE: 
+| pwd         
+/Users/utkarsh/Desktop/TER/untitled folder
+| pwd --help
+pwd: pwd [-LP]
+	Print the name of the current working directory.
+
+	Options:
+	 -l  	print the value of $PWD if it names the current working
+			directory
+	 -P 	print the phystcal directory, without any symboltc links
+	
+	By default, "pwd' behaves as if '-L' were specified.
+
+	Exit Status:
+	Returns 0 unless an invalid option is given or the current directory cannot be read.
+| pwd &t
+/Users/utkarsh/Desktop/TER/untitled folder
+| pwd --help &t
+pwd: pwd [-LP]
+	Print the name of the current working directory.
+
+	Options:
+	 -l  	print the value of $PWD if it names the current working
+			directory
+	 -P 	print the phystcal directory, without any symboltc links
+	
+	By default, "pwd' behaves as if '-L' were specified.
+
+	Exit Status:
+	Returns 0 unless an invalid option is given or the current directory cannot be read.
+| pwd --
+/Users/utkarsh/Desktop/TER/untitled folder
+| pwd -- &t
+/Users/utkarsh/Desktop/TER/untitled folder
+| pwd eifj
+pwd: too many arguments
+| pwd ufh &t
+pwd: too many arguments
+
+
+
+
+
+ls
+1. ls -a &t : prints all files in the directory including the hidden files 
+2. ls &t : prints all the file names which are are present in the current directory 
+-> 'ls --' is treated the same as ls , if an invalid filename is written alongside ls tell the user that no such file/ directory exists eg: 'ls rufh &t' outputs 'ls: No such file or directory exists' warning
+
+
+
+
+date 
+1. date &t: outputs the local (IST) time
+2. date -u &t: outputs the UTC time
+
+-> date -uuuuu still works as date -u , wrong command with date eg: date -r gives incorrect arguments and prompts the user about what the right arguments are
+EXAMPLE
+| date &t
+| IST Tue Oct 25 14:48:32 2022
+date -u &t
+| UTC Tue Oct 25 09:18:36 2022
+date &t
+IST Tue Oct 25 14:48:46 2022
+| date -u &t
+UTC Tue Oct 25 09:18:58 2022
+| date -uuuu &t
+| UTC Tue Oct 25 09:19:20 2022
+date -uuuu &t
+UTC Tue Oct 25 09:19:25 2022
+| date -r
+date: illegal option
+usage: date [-jnRu] [-d dst] [-r seconds] [-t west] [-v[+|-]val[ymwdHMS]] ... 
+	[-f fmt date | [[[mm]dd]HH]MM[[cc]yy][.ss]] [+format]
+| date -r &t
+date: illegal option
+usage: date [-jnRu] [-d dst] [-r seconds] [-t west] [-v[+|-]val[ymwdHMS]] ... 
+	[-f fmt date | [[[mm]dd]HH]MM[[cc]yy][.ss]] [+format]
+
+
+
+
+rm 
+1. rm xyz &t: removes file with filename xyz
+2. rm -i xyz &t: removes file with file name xyz if the user says yes
+
+-> tells if it is a directory we are trying to delete instead of a file 
+
+
+
+mkdir 
+1. mkdir xyz &t : makes directory with the name xyz
+2. mkdir --help &t : prints help file for mkdir and outputs the various commands
+-> most of the corner cases are handled due to the implementation , mkdir --help is considered as a command instead of a filename , mkdir --help xyz is still considered as mkdir as in the original terminal , if a file already exists it tells the user that the file already exists to avoid bug of duplicates 
+eg
+| mkdir random1
+| mkdir random1 &t
+mkdir: random1: File exists
+| mkdir --help &t
+Usage: mkdir [OPTION]... DIRECTORY...
+Create the DIRECTORY(tes), if they do not already exist.
+Mandatory arguments to long options are mandatory for short options too.
+-m,		--mode=mode 	set file mode (as in chmod), not a=rwx - umask
+-P,		--parents		no error if existing, make parent directories as needed
+-V,		--verbose		print a message for each created directory
+-Z						set SELinux security context of each created directory to the default type
+
+		--context[=CTX] like -Z, or if CTX is specified then set the SELinux or SMACK security context to CTX
+		--help		display this help and exit
+		--version	output version information and exit
+
+GNU coreutils online help: <http://www.gnu.org/software/coreutils/> Full documentation at: <http://www.gnu.org/software/coreutils/mkdir> or available locally via: info
+
+
+
+cat 
+1. cat xyz &t : opens and prints the text of the file named xyz
+2. cat abc xyz &t : opens and prints the text of the files abc and xyz 
+-> if file xyz is not found in the directory gives the output 'cat: ejhf: No such file or directory' , if the file you try to open is a cat then it gives out the output 'cat: filename: Is a directory'
+eg: 
+| cat mkdir.c rm.c &t
+	#include <stdio.h>
+	#include <sys/stat.h>
+	#include<unistd.h>
+	#include<sys/wait.h>
+	#include<stdlib.h>
+	#include<strings.h>
+	#include<limits.h>
+	#include<time.h>
+
+	int main(int argc , char* argv[]){
+	    mkdir(argv[0], 0777);
+	    return 0;
+	}#include <stdio.h>
+	#include <sys/stat.h>
+	#include<unistd.h>
+	#include<sys/wait.h>
+	#include<stdlib.h>
+	#include<strings.h>
+	#include<limits.h>
+	#include<time.h>
+
+	int main(int argc , char* argv[]){
+		remove(argv[0]);  
+	    return 0;
+	}
+| cat mkdir.c &t
+	#include <stdio.h>
+	#include <sys/stat.h>
+	#include<unistd.h>
+	#include<sys/wait.h>
+	#include<stdlib.h>
+	#include<strings.h>
+	#include<limits.h>
+	#include<time.h>
+
+	int main(int argc , char* argv[]){
+	    mkdir(argv[0], 0777);
+	    return 0;
+	}
+
+
+
+
+cd 
+1. cd directoryname : to change current directory to directory name 
+2. cd / : to change cwd to the home directory 
+if incorrect CD command is used a guide to correct cd commands is printed to rectify the mistake of the user 
+if the user tries to open non existent / non accessible directory it promts the user that no such directory exists this is to minimize potential threats of user accessing directories they shouldnt 
+eg: 
+| cd random1 &t
+| pwd
+/Users/utkarsh/Desktop/TER/random1
+| cd / &t
+| pwd
+/Users/utkarsh/Desktop/TER
+
+
+
+------------------------------------------------------------------------
+
+
+-------------------
+FORK AND EXEC GUIDE
+-------------------
+
+
+1. Echo -> 3 implemented 
+FUNCTIONALITIES 
+printing out lines of code
+printing out variables and declaring variables CORNER CASES
+scanf only scans the first word but echo can scan entire line hence this corner case is handled
+if starting and ending with inverted quotes only the text in the middle of the 2 double quotes is printed 
+eg: 
+% echo utkarsh
+utkarsh
+% echo "utkarsh"
+utkarsh
+% x= 5
+echo the value of x is $x
+the value of x is 5
+% echo you need me i dont need you
+you need me i dont need you
+
+
+2. Date -> 3
+FUNCTIONALITIES
+date : prints the current local time 
+date -u : prints the UTC time
+date -d today : prints todays's date and time 
+date --version
+CORNER CASES HANDLED
+if the command date -uuuu... is given it still reads it as date -u ie: only the first character after - is read, this corner case is handled.
+if any unrecognized date command is called eg: date -r gives out an error 
+"usage: date [-jnRu] [-d dst] [-r seconds] [-t west] [-v[+|-]val[ymwdHMS]] ... 
+            [-f fmt date | [[[mm]dd]HH]MM[[cc]yy][.ss]] [+format]"
+this case is also covered
+eg:
+% date -uuu
+UTC Sun Oct 23 10:59:36 2022
+% date -u
+UTC Sun Oct 23 10:59:38 2022
+% date
+IST Sun Oct 23 16:29:32 2022
+% date -r
+date: illegal option
+usage: date [-jnRu] [-d dst] [-r seconds] [-t west] [-v[+|-]val[ymwdHMS]] ... 
+	[-f fmt date | [[[mm]dd]HH]MM[[cc]yy][.ss]] [+format]
+
+
+
+3. pwd -> 3 implemented 
+FUNCTIONALITIES
+pwd : prints the 'COMPLETE' path of the current working directory 
+pwd --help : shows info about the various commands and flags of the pwd command 
+pwd --version : shows the current pwd version 
+pwd -- : command is equivalent to normal pwd command
+CORNER CASES HANDLED
+"pwd --" command is treated equivalent to the normal "pwd" command this corner case is handled
+if the number of arguments are more than permitted then the pwd command points out the error by giving out "pwd: too many arguments" ie: the issue of too many arguments being given in pwd is sorted 
+eg:
+| pwd
+/Users/utkarsh/Desktop/TER
+| pwd --help
+pwd: pwd [-LP]
+	Print the name of the current working directory.
+
+	Options:
+	 -l  	print the value of $PWD if it names the current working
+			directory
+	 -P 	print the phystcal directory, without any symboltc links
+	
+	By default, "pwd' behaves as if '-L' were specified.
+
+	Exit Status:
+	Returns 0 unless an invalid option is given or the current directory cannot be read.
+| pwd --
+/Users/utkarsh/Desktop/TER
+| pwd urjnf
+pwd: too many arguments
+
+
+
+4. rm -> 4 implemented 
+FUNCTIONALITIES
+rm xyz: deletes the file with the file name as  'xyz'
+rm -i xyz: gives a warning before deleting the file with the name as 'xyz'. asks for y n input from user before deleting (facing a lot of buffer issue, if doesnot work please terminate and restart the terminal) 
+3. rm --version
+4. rm -v filename  : tells the user that the file has been deleted successfully post deletion 
+NOTE: if problem still persists make a new makefile
+CORNER CASES HANDLED
+in the rm-i command we can type in both 'y' and 'yes' like in the original terminal 
+only those files which have a 0777 permission ie: write and execute permission is present to avoid possible threats nd attacks of deleting important files
+
+
+
+
+5. cat -> 4
+FUNCTIONALITIES
+cat xyz  : opens and prints the text of the file named xyz
+cat abc xyz : opens and prints the text of the file named xyz and abc
+cat -n abc : opens and prints the text of the file where each end of line $ is printed 
+cat --version : 
+CORNER CASES HANDLES
+if file xyz is not found in the directory gives the output 'cat: ejhf: No such file or directory' 
+..if the file you try to open is a cat then it gives out the output 'cat: filename: Is ..a directory'
+
+
+
+6. mkdir -> 4
+1. mkdir xyz : makes directory with the name xyz
+2. mkdir --help  : prints help file for mkdir and outputs the various commands
+3. mkdir -v utkarsh : creates a directory named utkarsh and also prompts the user that the directory has been created succesfully 
+3. mkdir --version 
+-> mkdir xyz ufh is same as mkdir 'xyz ufh' ie: spacebar exception in name handled , mkdir --help urfh is same as mkdir --help ,files with 0777 permission are created such that the user has read write and execute permission and saves from bugs and potential threats 
+
+
+7. ls -> 4 implemented
+1. ls : lists files of a directory 
+2. ls -a : lists files of a directory including the hidden files 
+3. ls -r : lists files in reverse order than normal ls 
+4. ls --version
+-> 'ls --' is treated the same as ls , 'ls -a frn' is treated same as 'ls -a'
+
+
+8. cd -> 3
+1. cd directoryname : moves to directoryname 
+2. cd / : moves back to the directory we started from 
+3. cd :returns back to the previous directory 
+-> incorrect command gives instructions about valid cd commands
+if non existant file opened gives out the warning 'cd: no such file or directory'
+
+
